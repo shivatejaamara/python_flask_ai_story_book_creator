@@ -11,8 +11,8 @@ A web app to create 1-page comic books using AI-generated images with a Flask-ba
 ## Getting Started
 
 1. Clone the repo:
-git clone https://github.com/yourusername/ai-comic-creator.git
-cd ai-comic-creator
+git clone https://github.com/shivatejaamara/python_flask_ai_story_book_creator.git
+cd python_flask_ai_story_book_creator
 2. Install dependencies:
 pip install -r requirements.txt
 3. Run the app:
