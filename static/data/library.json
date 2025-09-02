@@ -1,0 +1,142 @@
+{
+  "characters": [
+    {
+      "name": "Cat",
+      "category": "Animals",
+      "tags": [
+        "pet",
+        "cute"
+      ],
+      "path": "static/images/characters/animals/cat.png"
+    },
+    {
+      "name": "Dog",
+      "category": "Animals",
+      "tags": [
+        "pet",
+        "loyal"
+      ],
+      "path": "static/images/characters/animals/dog.png"
+    },
+    {
+      "name": "Hero",
+      "category": "Superheroes",
+      "tags": [
+        "cape",
+        "fly"
+      ],
+      "path": "static/images/characters/heroes/hero.png"
+    },
+    {
+      "name": "Robot",
+      "category": "Superheroes",
+      "tags": [
+        "metal",
+        "future"
+      ],
+      "path": "static/images/characters/heroes/robot.png"
+    }
+  ],
+  "backgrounds": [
+    {
+      "name": "City",
+      "category": "City",
+      "tags": [
+        "buildings",
+        "street"
+      ],
+      "path": "static/images/backgrounds/city/city.png"
+    },
+    {
+      "name": "Space",
+      "category": "City",
+      "tags": [
+        "stars",
+        "galaxy"
+      ],
+      "path": "static/images/backgrounds/city/space.png"
+    },
+    {
+      "name": "Forest",
+      "category": "Nature",
+      "tags": [
+        "trees",
+        "green"
+      ],
+      "path": "static/images/backgrounds/nature/forest.png"
+    },
+    {
+      "name": "Beach",
+      "category": "Nature",
+      "tags": [
+        "sea",
+        "sand"
+      ],
+      "path": "static/images/backgrounds/nature/beach.png"
+    }
+  ],
+  "templates": [
+    {
+      "id": "three_strip",
+      "name": "Three-Strip (3 horizontal panels)",
+      "panels": [
+        {
+          "x": 20,
+          "y": 20,
+          "w": 1160,
+          "h": 220
+        },
+        {
+          "x": 20,
+          "y": 260,
+          "w": 1160,
+          "h": 220
+        },
+        {
+          "x": 20,
+          "y": 500,
+          "w": 1160,
+          "h": 220
+        }
+      ],
+      "page": {
+        "w": 1200,
+        "h": 740
+      }
+    },
+    {
+      "id": "four_grid",
+      "name": "Four-Grid (2 x 2)",
+      "panels": [
+        {
+          "x": 20,
+          "y": 20,
+          "w": 560,
+          "h": 350
+        },
+        {
+          "x": 620,
+          "y": 20,
+          "w": 560,
+          "h": 350
+        },
+        {
+          "x": 20,
+          "y": 390,
+          "w": 560,
+          "h": 350
+        },
+        {
+          "x": 620,
+          "y": 390,
+          "w": 560,
+          "h": 350
+        }
+      ],
+      "page": {
+        "w": 1200,
+        "h": 760
+      }
+    }
+  ]
+}

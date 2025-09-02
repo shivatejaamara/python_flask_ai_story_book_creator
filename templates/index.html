@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Comic Maker – Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  </head>
+  <body>
+    <div class="container">
+      <h1>📚 Comic Maker</h1>
+      <p>Create a comic book page in minutes. Pick a template, add backgrounds & characters, then export to PDF.</p>
+      <a class="btn" href="{{ url_for('editor') }}">Start Creating</a>
+    </div>
+  </body>
+</html>
