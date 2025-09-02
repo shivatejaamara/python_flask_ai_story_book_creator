@@ -3,37 +3,25 @@
     {
       "name": "Cat",
       "category": "Animals",
-      "tags": [
-        "pet",
-        "cute"
-      ],
+      "tags": ["pet", "cute"],
       "path": "static/images/characters/animals/cat.png"
     },
     {
       "name": "Dog",
       "category": "Animals",
-      "tags": [
-        "pet",
-        "loyal"
-      ],
+      "tags": ["pet", "loyal"],
       "path": "static/images/characters/animals/dog.png"
     },
     {
       "name": "Hero",
       "category": "Superheroes",
-      "tags": [
-        "cape",
-        "fly"
-      ],
+      "tags": ["cape", "fly"],
       "path": "static/images/characters/heroes/hero.png"
     },
     {
       "name": "Robot",
       "category": "Superheroes",
-      "tags": [
-        "metal",
-        "future"
-      ],
+      "tags": ["metal", "future"],
       "path": "static/images/characters/heroes/robot.png"
     }
   ],
@@ -41,102 +29,96 @@
     {
       "name": "City",
       "category": "City",
-      "tags": [
-        "buildings",
-        "street"
-      ],
+      "tags": ["buildings", "street"],
       "path": "static/images/backgrounds/city/city.png"
     },
     {
       "name": "Space",
       "category": "City",
-      "tags": [
-        "stars",
-        "galaxy"
-      ],
+      "tags": ["stars", "galaxy"],
       "path": "static/images/backgrounds/city/space.png"
     },
     {
       "name": "Forest",
       "category": "Nature",
-      "tags": [
-        "trees",
-        "green"
-      ],
+      "tags": ["trees", "green"],
       "path": "static/images/backgrounds/nature/forest.png"
     },
     {
       "name": "Beach",
       "category": "Nature",
-      "tags": [
-        "sea",
-        "sand"
-      ],
+      "tags": ["sea", "sand"],
       "path": "static/images/backgrounds/nature/beach.png"
+    }
+  ],
+  "panels": [
+    {
+      "name": "Panel 1",
+      "category": "Panels",
+      "tags": ["frame", "layout"],
+      "path": "static/images/panel1.jpg"
+    },
+    {
+      "name": "Panel 2",
+      "category": "Panels",
+      "tags": ["frame", "layout"],
+      "path": "static/images/panel2.jpg"
+    },
+    {
+      "name": "Panel 3",
+      "category": "Panels",
+      "tags": ["frame", "layout"],
+      "path": "static/images/panel3.jpg"
+    },
+    {
+      "name": "Panel 4",
+      "category": "Panels",
+      "tags": ["frame", "layout"],
+      "path": "static/images/panel4.jpg"
+    },
+    {
+      "name": "Panel 5",
+      "category": "Panels",
+      "tags": ["frame", "layout"],
+      "path": "static/images/panel5.jpg"
+    },
+    {
+      "name": "Panel 6",
+      "category": "Panels",
+      "tags": ["frame", "layout"],
+      "path": "static/images/panel6.jpg"
     }
   ],
   "templates": [
     {
+      "id": "full_page",
+      "name": "Full Page Panel",
+      "panels": [
+        { "x": 20, "y": 20, "w": 1160, "h": 720 }
+      ],
+      "page": { "w": 1200, "h": 760 }
+    },
+
+    {
       "id": "three_strip",
       "name": "Three-Strip (3 horizontal panels)",
       "panels": [
-        {
-          "x": 20,
-          "y": 20,
-          "w": 1160,
-          "h": 220
-        },
-        {
-          "x": 20,
-          "y": 260,
-          "w": 1160,
-          "h": 220
-        },
-        {
-          "x": 20,
-          "y": 500,
-          "w": 1160,
-          "h": 220
-        }
+        { "x": 20, "y": 20, "w": 1160, "h": 220 },
+        { "x": 20, "y": 260, "w": 1160, "h": 220 },
+        { "x": 20, "y": 500, "w": 1160, "h": 220 }
       ],
-      "page": {
-        "w": 1200,
-        "h": 740
-      }
+      "page": { "w": 1200, "h": 740 }
     },
     {
       "id": "four_grid",
       "name": "Four-Grid (2 x 2)",
       "panels": [
-        {
-          "x": 20,
-          "y": 20,
-          "w": 560,
-          "h": 350
-        },
-        {
-          "x": 620,
-          "y": 20,
-          "w": 560,
-          "h": 350
-        },
-        {
-          "x": 20,
-          "y": 390,
-          "w": 560,
-          "h": 350
-        },
-        {
-          "x": 620,
-          "y": 390,
-          "w": 560,
-          "h": 350
-        }
+        { "x": 20, "y": 20, "w": 560, "h": 350 },
+        { "x": 620, "y": 20, "w": 560, "h": 350 },
+        { "x": 20, "y": 390, "w": 560, "h": 350 },
+        { "x": 620, "y": 390, "w": 560, "h": 350 }
       ],
-      "page": {
-        "w": 1200,
-        "h": 760
-      }
+      "page": { "w": 1200, "h": 760 }
     }
   ]
 }
