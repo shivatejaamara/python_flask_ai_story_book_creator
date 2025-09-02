@@ -1,6 +1,8 @@
 let LIB = null;
 let selectedBg = null;
 let selectedChar = null;
+let selectedPanel = null;
+
 const pages = []; // { canvas, panels: [fabric.Rect], bgImagesPerPanel: [fabric.Image|null] }
 
 async function loadLibrary() {
@@ -106,7 +108,9 @@ function fillFilters(selectId, items) {
 function renderThumbs() {
   const bgList = document.getElementById("bgList");
   const charList = document.getElementById("charList");
+  const panelList = document.getElementById("panelPreview");
   bgList.innerHTML = ""; charList.innerHTML = "";
+  panelList.innerHTML = "";
 
   const bgCat = document.getElementById("bgCategoryFilter").value.toLowerCase();
   const bgTag = document.getElementById("bgTagFilter").value.toLowerCase();
@@ -116,6 +120,7 @@ function renderThumbs() {
     .forEach(b => {
       const div = document.createElement("div"); div.className = "thumb";
       div.innerHTML = `<img alt="${b.name}" src="/${b.path}"><div class="label">${b.name}</div>`;
+
       div.onclick = () => selectedBg = b;
       bgList.appendChild(div);
     });
@@ -128,9 +133,28 @@ function renderThumbs() {
     .forEach(c => {
       const div = document.createElement("div"); div.className = "thumb";
       div.innerHTML = `<img alt="${c.name}" src="/${c.path}"><div class="label">${c.name}</div>`;
+
       div.onclick = () => selectedChar = c;
       charList.appendChild(div);
     });
+  
+  const pCat = document.getElementById("panelCategoryFilter").value.toLowerCase();
+  const pTag = document.getElementById("panelTagFilter").value.toLowerCase();
+  LIB.panels
+    .filter(p => (!pCat || p.category.toLowerCase() === pCat))
+    .filter(p => (!pTag || p.tags.join(" ").toLowerCase().includes(pTag)))
+    .forEach(p => {
+      const div = document.createElement("div"); div.className = "thumb";
+      div.innerHTML = `<img alt="${p.name}" src="/${p.path}"><div class="label">${p.name}</div>`;
+
+      div.onclick = () => {
+        document.querySelectorAll("#panelPreview .thumb").forEach(el => el.classList.remove("selected"));
+        div.classList.add("selected");
+        selectedPanel = p;
+      };
+      panelList.appendChild(div);
+    });
+  
 }
 
 document.addEventListener("change", (e) => {
@@ -151,6 +175,7 @@ function addPage() {
   pageDiv.className = "page";
   const label = document.createElement("div"); label.className = "label";
   label.textContent = `Page ${pages.length + 1} – ${t.name}`;
+
   const canvasEl = document.createElement("canvas");
   pageDiv.appendChild(label);
   pageDiv.appendChild(canvasEl);
@@ -187,6 +212,20 @@ function addPage() {
       canvas.setActiveObject(e.target);
     }
   });
+  function addPanel() {
+    let comicPanels = document.getElementById("comic-panels");
+    let panel = document.createElement("div");
+    panel.classList.add("panel");
+
+    // clicking selects this panel
+    panel.addEventListener("click", function() {
+        document.querySelectorAll(".panel").forEach(p => p.classList.remove("selected"));
+        panel.classList.add("selected");
+    });
+
+    comicPanels.appendChild(panel);
+}
+
 
   // When adding characters, lock aspect ratio
   function addCharacter(c, panelIdx) {
@@ -198,7 +237,7 @@ function addPage() {
         cornerStyle: "circle",
         transparentCorners: false
       });
-      img.lockUniScaling = True = true; // ensure uniform scaling
+      img.lockUniScaling = true; // ensure uniform scaling
       // Limit movement to within panel bounds (soft via event)
       img.on("moving", () => {
         const p = panels[panelIdx];
@@ -261,13 +300,54 @@ document.getElementById("addCharBtn").onclick = () => {
       top: rect.top + rect.height*0.3,
       scaleX: scale, scaleY: scale,
       cornerStyle: "circle",
-      transparentCorners: false
+      transparentCorners: false,
+      selectable: true
     });
     img.lockUniScaling = true;
+    img.on("moving", () => {
+      img.left = Math.min(
+        Math.max(img.left, rect.left),
+        rect.left + rect.width - img.width * img.scaleX
+      );
+      img.top = Math.min(
+        Math.max(img.top, rect.top),
+        rect.top + rect.height - img.height * img.scaleY
+      );
+    });
     canvas.add(img);
     p.bringOutlinesFront();
   }, { crossOrigin: "anonymous" });
 };
+
+document.getElementById("applyToPanelBtn").onclick = () => {
+  if (!selectedPanel) { alert("Pick a panel frame first."); return; }
+  const p = pages[pages.length - 1];
+  const canvas = p.canvas;
+  const active = canvas.getActiveObject();
+  if (!active || active.panelIndex === undefined) { alert("Select a panel box first."); return; }
+
+  const idx = active.panelIndex;
+  const rect = p.panels[idx];
+
+  fabric.Image.fromURL("/" + selectedPanel.path, (img) => {
+    img.set({
+      left: rect.left,
+      top: rect.top,
+      scaleX: rect.width / img.width,
+      scaleY: rect.height / img.height,
+      selectable: false,
+      evented: false
+    });
+    // Remove previous bg if any
+    if (p.bgImagesPerPanel[idx]) canvas.remove(p.bgImagesPerPanel[idx]);
+    p.bgImagesPerPanel[idx] = img;
+    canvas.add(img);
+    canvas.sendToBack(img);
+    p.bringOutlinesFront();
+    canvas.requestRenderAll();
+  }, { crossOrigin: "anonymous" });
+};
+
 
 document.getElementById("exportBtn").onclick = async () => {
   // Collect each page canvas -> PNG data URL
@@ -275,7 +355,7 @@ document.getElementById("exportBtn").onclick = async () => {
   const res = await fetch("/export", {
     method: "POST",
     headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({ pages: pagesData })
+    body: JSON.stringify({ images: pagesData })
   });
   const out = await res.json();
   if (out.ok) {
