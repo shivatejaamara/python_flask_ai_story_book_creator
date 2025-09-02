@@ -27,50 +27,38 @@ def library_json():
 
 @app.route("/export", methods=["POST"])
 def export_pdf():
-    # Folder where you keep panel images
-    img_folder = os.path.join("static", "images")
-    
-    # Collect all PNG/JPG files
-    files = sorted([
-        f for f in os.listdir(img_folder)
-        if f.lower().endswith((".png", ".jpg", ".jpeg"))
-    ])
-    
-    if not files:
-        return jsonify({"ok": False, "error": "No images found in comics folder"}), 400
+    data = request.get_json()
+    if not data or "images" not in data:
+        return jsonify({"ok": False, "error": "No images provided"}), 400
+
+    images = data["images"]
 
     pdf_buffer = io.BytesIO()
-    c = canvas.Canvas(pdf_buffer, pagesize=letter)
+    c = canvas.Canvas(pdf_buffer)
 
-    for fname in files:
-        img_path = os.path.join(img_folder, fname)
-        img = Image.open(img_path)
+    for img_data in images:
+        img_bytes = base64.b64decode(img_data.split(",")[1])
+        img = Image.open(io.BytesIO(img_bytes))
         img_width, img_height = img.size
 
-        # Scale to fit page
-        page_width, page_height = letter
-        aspect = img_width / img_height
-        if aspect > 1:
-            draw_width = page_width
-            draw_height = page_width / aspect
-        else:
-            draw_height = page_height
-            draw_width = page_height * aspect
+        # Set page size to the image size
+        c.setPageSize((img_width, img_height))
 
-        x = (page_width - draw_width) / 2
-        y = (page_height - draw_height) / 2
-        c.drawImage(img_path, x, y, width=draw_width, height=draw_height)
+        # Draw the image to exactly fit the page (no borders)
+        c.drawImage(ImageReader(io.BytesIO(img_bytes)), 0, 0, width=img_width, height=img_height)
+
         c.showPage()
 
     c.save()
 
-    pdf_bytes = pdf_buffer.getvalue()
     fname = "comic_book.pdf"
-    out_path = os.path.join("static",fname)
+    out_path = os.path.join("static", fname)
     with open(out_path, "wb") as f:
-        f.write(pdf_bytes)
+        f.write(pdf_buffer.getvalue())
 
     return jsonify({"ok": True, "url": f"/static/{fname}"})
+
+
 
 
 if __name__ == "__main__":
