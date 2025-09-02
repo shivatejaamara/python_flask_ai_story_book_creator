@@ -10,7 +10,7 @@
   <body>
     <div class="app">
       <header>
-        <h1>✏️ Comic Editor</h1>
+        <h1>✏ Comic Editor</h1>
         <div class="actions">
           <select id="templateSelect"></select>
           <button id="addPageBtn" class="btn">+ Add Page</button>
@@ -41,6 +41,17 @@
             <div id="charList" class="thumbs"></div>
             <button id="addCharBtn" class="btn small">Add to Selected Panel</button>
           </section>
+          <section>
+            <h3>Panels</h3>
+            <div class="filters">
+              <select id="panelCategoryFilter"><option value="">All Categories</option></select>
+              <input id="panelTagFilter" placeholder="Filter by tag (e.g., frame)" />
+            </div>
+            <div id="panelPreview" class="thumbs"></div>
+            <button id="applyToPanelBtn" class="btn small">Apply to Selected Panel</button>
+          </section>
+
+
         </aside>
 
         <section class="canvas-area">
